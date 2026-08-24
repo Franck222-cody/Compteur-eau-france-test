@@ -13,7 +13,7 @@ def fetch_qmj(day):
         "code_entite": STATION,
         "date_debut_obs_elab": day.isoformat(),
         "date_fin_obs_elab": day.isoformat(),
-        "grandeur_hydro_elab": "QmJ",
+        "grandeur_hydro_elab": "QmnJ",
         "size": 20,
     }
 
