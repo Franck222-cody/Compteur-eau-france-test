@@ -79,11 +79,11 @@
   </div>
 
   <div class="unit">
-    m³ d'eau depuis le début de la journée
+    m³ d'eau écoulés depuis minuit
   </div>
 
   <div class="card">
-    Débit total actuel
+    Débit total utilisé pour l'estimation
 
     <div id="flow" class="flow">
       --
@@ -98,8 +98,6 @@
 
 <script>
 let debit = 0;
-let volumeDepart = 0;
-let heureChargement = Date.now();
 
 async function charger() {
   try {
@@ -107,11 +105,13 @@ async function charger() {
       "data/latest.json?t=" + Date.now()
     );
 
+    if (!reponse.ok) {
+      throw new Error("Impossible de charger les données");
+    }
+
     const data = await reponse.json();
 
-    debit = data.total.debit_m3_s;
-    volumeDepart = data.total.volume_m3_jour;
-    heureChargement = Date.now();
+    debit = Number(data.total.debit_m3_s);
 
     document.getElementById("flow").textContent =
       debit.toLocaleString("fr-FR", {
@@ -119,7 +119,7 @@ async function charger() {
       });
 
     document.getElementById("date").textContent =
-      "Données : " + data.date;
+      "Données hydrologiques : " + data.date;
 
     actualiserCompteur();
 
@@ -130,12 +130,20 @@ async function charger() {
 }
 
 function actualiserCompteur() {
+  const maintenant = new Date();
 
-  const secondes =
-    (Date.now() - heureChargement) / 1000;
+  const minuit = new Date(
+    maintenant.getFullYear(),
+    maintenant.getMonth(),
+    maintenant.getDate(),
+    0, 0, 0, 0
+  );
+
+  const secondesDepuisMinuit =
+    (maintenant.getTime() - minuit.getTime()) / 1000;
 
   const volume =
-    volumeDepart + (debit * secondes);
+    debit * secondesDepuisMinuit;
 
   document.getElementById("counter").textContent =
     Math.round(volume).toLocaleString("fr-FR");
@@ -145,7 +153,7 @@ charger();
 
 setInterval(actualiserCompteur, 1000);
 
-/* recharge les nouvelles données toutes les 5 minutes */
+/* Recharge les nouvelles données toutes les 5 minutes */
 setInterval(charger, 300000);
 </script>
 
