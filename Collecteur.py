@@ -1,35 +1,21 @@
 #!/usr/bin/env python3
 
+import csv
 import json
 from datetime import date, timedelta
+from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 BASE_URL = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/obs_elab"
 
 STATIONS = {
-    "Seine": {
-        "code": "H320000104",
-        "nom": "Seine à Vernon"
-    },
-    "Loire": {
-        "code": "M530001010",
-        "nom": "Loire à Montjean-sur-Loire"
-    },
-    "Rhone": {
-        "code": "V720001002",
-        "nom": "Rhône à Tarascon"
-    },
-    "Garonne": {
-        "code": "O900001002",
-        "nom": "Garonne à Tonneins"
-    },
-    "Dordogne": {
-        "code": "P555001001",
-        "nom": "Dordogne à Pessac-sur-Dordogne"
-    }
+    "Seine": {"code": "H320000104", "nom": "Seine à Vernon"},
+    "Loire": {"code": "M530001010", "nom": "Loire à Montjean-sur-Loire"},
+    "Rhone": {"code": "V720001002", "nom": "Rhône à Tarascon"},
+    "Garonne": {"code": "O900001002", "nom": "Garonne à Tonneins"},
+    "Dordogne": {"code": "P555001001", "nom": "Dordogne à Pessac-sur-Dordogne"},
 }
-
 
 def fetch_qmj(code, day):
     params = {
@@ -44,9 +30,7 @@ def fetch_qmj(code, day):
 
     req = Request(
         url,
-        headers={
-            "User-Agent": "Compteur-Eau-Douce-France-V1/0.2"
-        }
+        headers={"User-Agent": "Compteur-Eau-Douce-France-V1/0.3"}
     )
 
     with urlopen(req, timeout=30) as r:
@@ -57,9 +41,7 @@ def fetch_qmj(code, day):
     if not rows:
         return None
 
-    row = rows[0]
-
-    q_l_s = row.get("resultat_obs_elab")
+    q_l_s = rows[0].get("resultat_obs_elab")
 
     if q_l_s is None:
         return None
@@ -70,22 +52,15 @@ def fetch_qmj(code, day):
     return {
         "qmj_m3_s": round(q_m3_s, 3),
         "volume_m3_jour": round(volume_m3, 0),
-        "volume_millions_m3_jour": round(
-            volume_m3 / 1_000_000, 3
-        )
+        "volume_millions_m3_jour": round(volume_m3 / 1_000_000, 3)
     }
 
-
 today = date.today()
-
 resultat_final = None
 
-# On cherche une date commune disponible
-# pour les 5 stations.
 for n in range(1, 8):
 
     day = today - timedelta(days=n)
-
     stations_du_jour = {}
     tout_disponible = True
 
@@ -106,13 +81,11 @@ for n in range(1, 8):
     if tout_disponible:
 
         debit_total = sum(
-            x["qmj_m3_s"]
-            for x in stations_du_jour.values()
+            x["qmj_m3_s"] for x in stations_du_jour.values()
         )
 
         volume_total = sum(
-            x["volume_m3_jour"]
-            for x in stations_du_jour.values()
+            x["volume_m3_jour"] for x in stations_du_jour.values()
         )
 
         resultat_final = {
@@ -130,18 +103,62 @@ for n in range(1, 8):
 
         break
 
-
 if resultat_final is None:
     raise SystemExit(
-        "Aucune date commune disponible "
-        "pour les 5 stations sur les 7 derniers jours."
+        "Aucune date commune disponible pour les 5 stations."
     )
 
+data_dir = Path("data")
+data_dir.mkdir(exist_ok=True)
 
-print(
-    json.dumps(
+with open(data_dir / "latest.json", "w", encoding="utf-8") as f:
+    json.dump(
         resultat_final,
+        f,
         ensure_ascii=False,
         indent=2
     )
-)
+
+historique = data_dir / "historique.csv"
+
+ancienne_data = {}
+
+if historique.exists():
+    with open(historique, encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            ancienne_data[row["date"]] = row
+
+ligne = {
+    "date": resultat_final["date"],
+    "debit_total_m3_s": resultat_final["total"]["debit_m3_s"],
+    "volume_total_m3": resultat_final["total"]["volume_m3_jour"],
+    "volume_total_millions_m3": resultat_final["total"]["volume_millions_m3_jour"],
+}
+
+for fleuve, valeurs in resultat_final["stations"].items():
+    ligne[f"{fleuve}_m3_s"] = valeurs["qmj_m3_s"]
+
+ancienne_data[ligne["date"]] = ligne
+
+champs = [
+    "date",
+    "debit_total_m3_s",
+    "volume_total_m3",
+    "volume_total_millions_m3",
+    "Seine_m3_s",
+    "Loire_m3_s",
+    "Rhone_m3_s",
+    "Garonne_m3_s",
+    "Dordogne_m3_s",
+]
+
+with open(historique, "w", encoding="utf-8", newline="") as f:
+    writer = csv.DictWriter(f, fieldnames=champs)
+    writer.writeheader()
+
+    for d in sorted(ancienne_data):
+        writer.writerow(ancienne_data[d])
+
+print(json.dumps(resultat_final, ensure_ascii=False, indent=2))
+print("Historique enregistré avec succès.")
