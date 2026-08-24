@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compteur d'eau douce vers la mer</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(180deg, #061a2d, #063b59);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: #b9dff2;
+      margin-bottom: 45px;
+    }
+
+    .counter {
+      font-size: clamp(38px, 10vw, 70px);
+      font-weight: bold;
+      color: #5de1ff;
+      margin: 20px 0;
+    }
+
+    .unit {
+      font-size: 20px;
+      color: #c9e9f5;
+    }
+
+    .card {
+      margin-top: 45px;
+      padding: 25px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 18px;
+    }
+
+    .flow {
+      font-size: 30px;
+      font-weight: bold;
+      margin: 10px;
+    }
+
+    #date {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #9ec9dc;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>💧 Eau douce vers la mer</h1>
+
+  <div class="subtitle">
+    Estimation en temps réel à partir des débits mesurés
+  </div>
+
+  <div id="counter" class="counter">
+    Chargement...
+  </div>
+
+  <div class="unit">
+    m³ d'eau depuis le début de la journée
+  </div>
+
+  <div class="card">
+    Débit total actuel
+
+    <div id="flow" class="flow">
+      --
+    </div>
+
+    m³/s
+
+    <div id="date"></div>
+  </div>
+
+</div>
+
+<script>
+let debit = 0;
+let volumeDepart = 0;
+let heureChargement = Date.now();
+
+async function charger() {
+  try {
+    const reponse = await fetch(
+      "data/latest.json?t=" + Date.now()
+    );
+
+    const data = await reponse.json();
+
+    debit = data.total.debit_m3_s;
+    volumeDepart = data.total.volume_m3_jour;
+    heureChargement = Date.now();
+
+    document.getElementById("flow").textContent =
+      debit.toLocaleString("fr-FR", {
+        maximumFractionDigits: 2
+      });
+
+    document.getElementById("date").textContent =
+      "Données : " + data.date;
+
+    actualiserCompteur();
+
+  } catch (erreur) {
+    document.getElementById("counter").textContent =
+      "Données indisponibles";
+  }
+}
+
+function actualiserCompteur() {
+
+  const secondes =
+    (Date.now() - heureChargement) / 1000;
+
+  const volume =
+    volumeDepart + (debit * secondes);
+
+  document.getElementById("counter").textContent =
+    Math.round(volume).toLocaleString("fr-FR");
+}
+
+charger();
+
+setInterval(actualiserCompteur, 1000);
+
+/* recharge les nouvelles données toutes les 5 minutes */
+setInterval(charger, 300000);
+</script>
+
+</body>
+</html>
