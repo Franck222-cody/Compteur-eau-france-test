@@ -1,23 +1,19 @@
 {
   "date": "2026-09-09",
-  "generated_at": "2026-09-10T19:58:59.466206+00:00",
-  "method_version": "V1.2-test",
-  "source": {
-    "nom": "Hub'Eau Hydrometrie",
-    "grandeur": "QmnJ",
-    "unite_source": "l/s",
-    "unite_utilisee": "m3/s"
-  },
+  "generated_at": "2026-09-10T20:23:55.460246+00:00",
+  "method_version": "V1.3-test",
   "total": {
     "type": "mesure_reconstituee",
     "debit_m3_s": 1136.827,
-    "volume_m3_jour": 98221852,
+    "volume_m3_jour": 98221853,
     "stations_disponibles": 27,
     "stations_prevues": 27,
     "couverture_stations_pct": 100.0,
+    "stations_manquantes": [],
     "exutoires_disponibles": 23,
     "exutoires_prevus": 23,
-    "couverture_exutoires_pct": 100.0
+    "couverture_exutoires_pct": 100.0,
+    "exutoires_manquants": []
   },
   "cumul_hydrologique": {
     "date_debut": "2026-09-01",
@@ -25,446 +21,103 @@
     "jours_couverts": 9,
     "jours_attendus": 9,
     "couverture_jours_pct": 100.0,
-    "volume_m3": 858215606,
-    "volume_millions_m3": 858.216,
-    "volume_milliards_m3": 0.858216
+    "volume_m3": 853340139,
+    "volume_millions_m3": 853.34,
+    "volume_milliards_m3": 0.85334
   },
   "exutoires": {
     "Seine": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 131.691,
-      "volume_m3_jour": 11378102,
-      "stations": [
-        "Seine"
-      ]
+      "volume_m3_jour": 11378102
     },
     "Loire": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 110.78,
-      "volume_m3_jour": 9571392,
-      "stations": [
-        "Loire"
-      ]
+      "volume_m3_jour": 9571392
     },
     "Rhone": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 607.526,
-      "volume_m3_jour": 52490246,
-      "stations": [
-        "Rhone"
-      ]
+      "volume_m3_jour": 52490246
     },
     "Charente": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 46.336,
-      "volume_m3_jour": 4003430,
-      "stations": [
-        "Charente"
-      ]
+      "volume_m3_jour": 4003430
     },
     "Vilaine": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 1.62,
-      "volume_m3_jour": 139968,
-      "stations": [
-        "Vilaine"
-      ]
+      "volume_m3_jour": 139968
     },
     "Somme": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 17.659,
-      "volume_m3_jour": 1525738,
-      "stations": [
-        "Somme"
-      ]
+      "volume_m3_jour": 1525738
     },
     "Orne": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 1.098,
-      "volume_m3_jour": 94867,
-      "stations": [
-        "Orne"
-      ]
+      "volume_m3_jour": 94867
     },
     "Vire": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.351,
-      "volume_m3_jour": 30326,
-      "stations": [
-        "Vire"
-      ]
+      "volume_m3_jour": 30326
     },
     "Sienne": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.484,
-      "volume_m3_jour": 41818,
-      "stations": [
-        "Sienne"
-      ]
+      "volume_m3_jour": 41818
     },
     "Selune": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 1.495,
-      "volume_m3_jour": 129168,
-      "stations": [
-        "Selune"
-      ]
+      "volume_m3_jour": 129168
     },
     "Aude": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 2.535,
-      "volume_m3_jour": 219024,
-      "stations": [
-        "Aude"
-      ]
+      "volume_m3_jour": 219024
     },
     "Herault": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 2.517,
-      "volume_m3_jour": 217469,
-      "stations": [
-        "Herault"
-      ]
+      "volume_m3_jour": 217469
     },
     "Orb": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 3.82,
-      "volume_m3_jour": 330048,
-      "stations": [
-        "Orb"
-      ]
+      "volume_m3_jour": 330048
     },
     "Aulne": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 1.221,
-      "volume_m3_jour": 105494,
-      "stations": [
-        "Aulne"
-      ]
+      "volume_m3_jour": 105494
     },
     "Blavet": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 3.113,
-      "volume_m3_jour": 268963,
-      "stations": [
-        "Blavet"
-      ]
+      "volume_m3_jour": 268963
     },
     "Odet": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.278,
-      "volume_m3_jour": 24019,
-      "stations": [
-        "Odet"
-      ]
+      "volume_m3_jour": 24019
     },
     "Elorn": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.526,
-      "volume_m3_jour": 45446,
-      "stations": [
-        "Elorn"
-      ]
+      "volume_m3_jour": 45446
     },
     "Trieux": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.179,
-      "volume_m3_jour": 15466,
-      "stations": [
-        "Trieux"
-      ]
+      "volume_m3_jour": 15466
     },
     "Leguer": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.673,
-      "volume_m3_jour": 58147,
-      "stations": [
-        "Leguer"
-      ]
+      "volume_m3_jour": 58147
     },
     "Scorff": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.364,
-      "volume_m3_jour": 31450,
-      "stations": [
-        "Scorff"
-      ]
+      "volume_m3_jour": 31450
     },
     "Rance": {
-      "type": "mesure_ou_reference",
       "debit_m3_s": 0.052,
-      "volume_m3_jour": 4493,
-      "stations": [
-        "Rance"
-      ]
+      "volume_m3_jour": 4493
     },
     "Gironde": {
-      "type": "reconstitue",
       "debit_m3_s": 146.537,
-      "volume_m3_jour": 12660797,
-      "stations": [
-        "Garonne",
-        "Dordogne"
-      ],
-      "note": "Garonne + Dordogne, sans double comptage."
+      "volume_m3_jour": 12660797
     },
     "Adour": {
-      "type": "reconstitue",
       "debit_m3_s": 55.972,
-      "volume_m3_jour": 4835981,
-      "stations": [
-        "Adour_principal",
-        "Gave_de_Pau",
-        "Gave_Oloron",
-        "Nive"
-      ],
-      "note": "Adour principal + Gave de Pau + Gave d'Oloron + Nive."
+      "volume_m3_jour": 4835981
     }
   },
-  "stations": {
-    "Seine": {
-      "code": "H320000104",
-      "nom": "Seine a Vernon",
-      "disponible": true,
-      "debit_m3_s": 131.691,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Loire": {
-      "code": "M530001010",
-      "nom": "Loire a Montjean-sur-Loire",
-      "disponible": true,
-      "debit_m3_s": 110.78,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Rhone": {
-      "code": "V720001002",
-      "nom": "Rhone a Tarascon",
-      "disponible": true,
-      "debit_m3_s": 607.526,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Garonne": {
-      "code": "O900001002",
-      "nom": "Garonne a Tonneins",
-      "disponible": true,
-      "debit_m3_s": 101.234,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Dordogne": {
-      "code": "P555001001",
-      "nom": "Dordogne a Pessac-sur-Dordogne",
-      "disponible": true,
-      "debit_m3_s": 45.303,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Adour_principal": {
-      "code": "Q312001002",
-      "nom": "Adour principal",
-      "disponible": true,
-      "debit_m3_s": 19.208,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Gave_de_Pau": {
-      "code": "Q523101001",
-      "nom": "Gave de Pau",
-      "disponible": true,
-      "debit_m3_s": 19.057,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Gave_Oloron": {
-      "code": "Q741291001",
-      "nom": "Gave d'Oloron",
-      "disponible": true,
-      "debit_m3_s": 11.341,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Nive": {
-      "code": "Q931251001",
-      "nom": "Nive",
-      "disponible": true,
-      "debit_m3_s": 6.366,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Charente": {
-      "code": "R520001001",
-      "nom": "Charente a Saintes",
-      "disponible": true,
-      "debit_m3_s": 46.336,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Vilaine": {
-      "code": "J790061002",
-      "nom": "Vilaine a Langon",
-      "disponible": true,
-      "debit_m3_s": 1.62,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Somme": {
-      "code": "E647091003",
-      "nom": "Somme",
-      "disponible": true,
-      "debit_m3_s": 17.659,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Orne": {
-      "code": "I353101001",
-      "nom": "Orne a Grimbosq",
-      "disponible": true,
-      "debit_m3_s": 1.098,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Vire": {
-      "code": "I522101001",
-      "nom": "Vire",
-      "disponible": true,
-      "debit_m3_s": 0.351,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Sienne": {
-      "code": "I711101001",
-      "nom": "Sienne",
-      "disponible": true,
-      "debit_m3_s": 0.484,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Selune": {
-      "code": "I922102001",
-      "nom": "Selune",
-      "disponible": true,
-      "debit_m3_s": 1.495,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Aude": {
-      "code": "Y142201002",
-      "nom": "Aude",
-      "disponible": true,
-      "debit_m3_s": 2.535,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Herault": {
-      "code": "Y237002001",
-      "nom": "Herault",
-      "disponible": true,
-      "debit_m3_s": 2.517,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Orb": {
-      "code": "Y258002002",
-      "nom": "Orb",
-      "disponible": true,
-      "debit_m3_s": 3.82,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Aulne": {
-      "code": "J381181001",
-      "nom": "Aulne a Chateauneuf-du-Faou",
-      "disponible": true,
-      "debit_m3_s": 1.221,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Blavet": {
-      "code": "J571211005",
-      "nom": "Blavet a Languidic",
-      "disponible": true,
-      "debit_m3_s": 3.113,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Odet": {
-      "code": "J421191001",
-      "nom": "Odet",
-      "disponible": true,
-      "debit_m3_s": 0.278,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Elorn": {
-      "code": "J340301001",
-      "nom": "Elorn",
-      "disponible": true,
-      "debit_m3_s": 0.526,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Trieux": {
-      "code": "J171171001",
-      "nom": "Trieux",
-      "disponible": true,
-      "debit_m3_s": 0.179,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Leguer": {
-      "code": "J223302001",
-      "nom": "Leguer",
-      "disponible": true,
-      "debit_m3_s": 0.673,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Scorff": {
-      "code": "J510221001",
-      "nom": "Scorff",
-      "disponible": true,
-      "debit_m3_s": 0.364,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    },
-    "Rance": {
-      "code": "J061161001",
-      "nom": "Rance",
-      "disponible": true,
-      "debit_m3_s": 0.052,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
-    }
-  },
-  "avertissement": "Version V1.2 de test. Le total et le cumul representent uniquement les flux mesures ou reconstitues du reseau V1. L'estimation des zones non jaugees n'est pas encore ajoutee."
+  "avertissement": "V1.3 test - zones non jaugees non ajoutees."
 }
