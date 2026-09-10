@@ -1,6 +1,6 @@
 {
   "date": "2026-09-09",
-  "generated_at": "2026-09-10T19:50:50.888023+00:00",
+  "generated_at": "2026-09-10T19:58:59.466206+00:00",
   "method_version": "V1.2-test",
   "source": {
     "nom": "Hub'Eau Hydrometrie",
@@ -10,24 +10,24 @@
   },
   "total": {
     "type": "mesure_reconstituee",
-    "debit_m3_s": 1135.332,
-    "volume_m3_jour": 98092684,
-    "stations_disponibles": 26,
+    "debit_m3_s": 1136.827,
+    "volume_m3_jour": 98221852,
+    "stations_disponibles": 27,
     "stations_prevues": 27,
-    "couverture_stations_pct": 96.3,
-    "exutoires_disponibles": 22,
+    "couverture_stations_pct": 100.0,
+    "exutoires_disponibles": 23,
     "exutoires_prevus": 23,
-    "couverture_exutoires_pct": 95.7
+    "couverture_exutoires_pct": 100.0
   },
   "cumul_hydrologique": {
     "date_debut": "2026-09-01",
     "date_fin": "2026-09-09",
-    "jours_couverts": 7,
+    "jours_couverts": 9,
     "jours_attendus": 9,
-    "couverture_jours_pct": 77.8,
-    "volume_m3": 674568085,
-    "volume_millions_m3": 674.568,
-    "volume_milliards_m3": 0.674568
+    "couverture_jours_pct": 100.0,
+    "volume_m3": 858215606,
+    "volume_millions_m3": 858.216,
+    "volume_milliards_m3": 0.858216
   },
   "exutoires": {
     "Seine": {
@@ -100,6 +100,14 @@
       "volume_m3_jour": 41818,
       "stations": [
         "Sienne"
+      ]
+    },
+    "Selune": {
+      "type": "mesure_ou_reference",
+      "debit_m3_s": 1.495,
+      "volume_m3_jour": 129168,
+      "stations": [
+        "Selune"
       ]
     },
     "Aude": {
@@ -352,7 +360,11 @@
     "Selune": {
       "code": "I922102001",
       "nom": "Selune",
-      "disponible": false
+      "disponible": true,
+      "debit_m3_s": 1.495,
+      "date": "2026-09-09",
+      "statut": null,
+      "qualification": null
     },
     "Aude": {
       "code": "Y142201002",
