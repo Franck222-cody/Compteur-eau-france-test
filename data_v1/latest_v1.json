@@ -1,7 +1,7 @@
 {
   "date": "2026-09-09",
-  "generated_at": "2026-09-10T20:41:00.987182+00:00",
-  "method_version": "V1.4-test",
+  "generated_at": "2026-09-10T21:03:30.191236+00:00",
+  "method_version": "V1.5-test",
   "interpolation": {
     "methode": "moyenne J-1 / J+1",
     "usage": "trou isole seulement"
@@ -27,9 +27,9 @@
     "jours_couverts": 9,
     "jours_attendus": 9,
     "couverture_jours_pct": 100.0,
-    "volume_m3": 863001517,
-    "volume_millions_m3": 863.002,
-    "volume_milliards_m3": 0.863002
+    "volume_m3": 863020525,
+    "volume_millions_m3": 863.021,
+    "volume_milliards_m3": 0.863021
   },
   "exutoires": {
     "Seine": {
