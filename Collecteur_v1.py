@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 URL = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/obs_elab"
-VERSION = "V1.4-test"
+VERSION = "V1.5-test"
 OUT = Path("data_v1")
 LATEST = OUT / "latest_v1.json"
 HISTORY = OUT / "historique_v1.csv"
@@ -36,7 +36,7 @@ ADOUR = ["Adour_principal","Gave_de_Pau","Gave_Oloron","Nive"]
 EXPECTED = DIRECT + ["Gironde","Adour"]
 
 
-def fetch(code, day):
+def fetch_once(code, day):
     p = {
         "code_entite": code,
         "date_debut_obs_elab": day.isoformat(),
@@ -66,6 +66,19 @@ def fetch(code, day):
                 return float(v) / 1000.0
             except (TypeError, ValueError):
                 pass
+
+    return None
+    
+def fetch(code, day):
+    for tentative in range(3):
+        q = fetch_once(code, day)
+
+        if q is not None:
+            return q
+
+        if tentative < 2:
+            print("Nouvelle tentative:", code, day)
+            time.sleep(1)
 
     return None
 
