@@ -1,0 +1,2 @@
+date,debit_m3_s,volume_m3_jour,stations_disponibles,stations_prevues,couverture_stations_pct,exutoires_disponibles,exutoires_prevus,couverture_exutoires_pct,method_version
+2026-09-09,1136.827,98221853,27,27,100.0,23,23,100.0,V1.1-test
