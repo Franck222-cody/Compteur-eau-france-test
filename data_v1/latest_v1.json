@@ -1,7 +1,7 @@
 {
   "date": "2026-09-09",
-  "generated_at": "2026-09-10T19:22:32.050485+00:00",
-  "method_version": "V1.1-test",
+  "generated_at": "2026-09-10T19:50:50.888023+00:00",
+  "method_version": "V1.2-test",
   "source": {
     "nom": "Hub'Eau Hydrometrie",
     "grandeur": "QmnJ",
@@ -10,20 +10,30 @@
   },
   "total": {
     "type": "mesure_reconstituee",
-    "debit_m3_s": 1136.827,
-    "volume_m3_jour": 98221853,
-    "stations_disponibles": 27,
+    "debit_m3_s": 1135.332,
+    "volume_m3_jour": 98092684,
+    "stations_disponibles": 26,
     "stations_prevues": 27,
-    "couverture_stations_pct": 100.0,
-    "exutoires_disponibles": 23,
+    "couverture_stations_pct": 96.3,
+    "exutoires_disponibles": 22,
     "exutoires_prevus": 23,
-    "couverture_exutoires_pct": 100.0
+    "couverture_exutoires_pct": 95.7
+  },
+  "cumul_hydrologique": {
+    "date_debut": "2026-09-01",
+    "date_fin": "2026-09-09",
+    "jours_couverts": 7,
+    "jours_attendus": 9,
+    "couverture_jours_pct": 77.8,
+    "volume_m3": 674568085,
+    "volume_millions_m3": 674.568,
+    "volume_milliards_m3": 0.674568
   },
   "exutoires": {
     "Seine": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 131.691,
-      "volume_m3_jour": 11378102.4,
+      "volume_m3_jour": 11378102,
       "stations": [
         "Seine"
       ]
@@ -31,7 +41,7 @@
     "Loire": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 110.78,
-      "volume_m3_jour": 9571392.0,
+      "volume_m3_jour": 9571392,
       "stations": [
         "Loire"
       ]
@@ -39,7 +49,7 @@
     "Rhone": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 607.526,
-      "volume_m3_jour": 52490246.4,
+      "volume_m3_jour": 52490246,
       "stations": [
         "Rhone"
       ]
@@ -47,7 +57,7 @@
     "Charente": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 46.336,
-      "volume_m3_jour": 4003430.4,
+      "volume_m3_jour": 4003430,
       "stations": [
         "Charente"
       ]
@@ -55,7 +65,7 @@
     "Vilaine": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 1.62,
-      "volume_m3_jour": 139968.0,
+      "volume_m3_jour": 139968,
       "stations": [
         "Vilaine"
       ]
@@ -63,7 +73,7 @@
     "Somme": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 17.659,
-      "volume_m3_jour": 1525737.5999999999,
+      "volume_m3_jour": 1525738,
       "stations": [
         "Somme"
       ]
@@ -71,7 +81,7 @@
     "Orne": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 1.098,
-      "volume_m3_jour": 94867.20000000001,
+      "volume_m3_jour": 94867,
       "stations": [
         "Orne"
       ]
@@ -79,7 +89,7 @@
     "Vire": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.351,
-      "volume_m3_jour": 30326.399999999998,
+      "volume_m3_jour": 30326,
       "stations": [
         "Vire"
       ]
@@ -87,23 +97,15 @@
     "Sienne": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.484,
-      "volume_m3_jour": 41817.6,
+      "volume_m3_jour": 41818,
       "stations": [
         "Sienne"
-      ]
-    },
-    "Selune": {
-      "type": "mesure_ou_reference",
-      "debit_m3_s": 1.495,
-      "volume_m3_jour": 129168.00000000001,
-      "stations": [
-        "Selune"
       ]
     },
     "Aude": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 2.535,
-      "volume_m3_jour": 219024.0,
+      "volume_m3_jour": 219024,
       "stations": [
         "Aude"
       ]
@@ -111,7 +113,7 @@
     "Herault": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 2.517,
-      "volume_m3_jour": 217468.8,
+      "volume_m3_jour": 217469,
       "stations": [
         "Herault"
       ]
@@ -119,7 +121,7 @@
     "Orb": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 3.82,
-      "volume_m3_jour": 330048.0,
+      "volume_m3_jour": 330048,
       "stations": [
         "Orb"
       ]
@@ -127,7 +129,7 @@
     "Aulne": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 1.221,
-      "volume_m3_jour": 105494.40000000001,
+      "volume_m3_jour": 105494,
       "stations": [
         "Aulne"
       ]
@@ -135,7 +137,7 @@
     "Blavet": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 3.113,
-      "volume_m3_jour": 268963.2,
+      "volume_m3_jour": 268963,
       "stations": [
         "Blavet"
       ]
@@ -143,7 +145,7 @@
     "Odet": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.278,
-      "volume_m3_jour": 24019.2,
+      "volume_m3_jour": 24019,
       "stations": [
         "Odet"
       ]
@@ -151,7 +153,7 @@
     "Elorn": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.526,
-      "volume_m3_jour": 45446.4,
+      "volume_m3_jour": 45446,
       "stations": [
         "Elorn"
       ]
@@ -159,7 +161,7 @@
     "Trieux": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.179,
-      "volume_m3_jour": 15465.599999999999,
+      "volume_m3_jour": 15466,
       "stations": [
         "Trieux"
       ]
@@ -167,7 +169,7 @@
     "Leguer": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.673,
-      "volume_m3_jour": 58147.200000000004,
+      "volume_m3_jour": 58147,
       "stations": [
         "Leguer"
       ]
@@ -175,7 +177,7 @@
     "Scorff": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.364,
-      "volume_m3_jour": 31449.6,
+      "volume_m3_jour": 31450,
       "stations": [
         "Scorff"
       ]
@@ -183,38 +185,38 @@
     "Rance": {
       "type": "mesure_ou_reference",
       "debit_m3_s": 0.052,
-      "volume_m3_jour": 4492.8,
+      "volume_m3_jour": 4493,
       "stations": [
         "Rance"
       ]
     },
     "Gironde": {
       "type": "reconstitue",
-      "debit_m3_s": 146.53699999999998,
-      "volume_m3_jour": 12660796.799999999,
+      "debit_m3_s": 146.537,
+      "volume_m3_jour": 12660797,
       "stations": [
         "Garonne",
         "Dordogne"
       ],
-      "note": "Reconstitution à partir de la Garonne et de la Dordogne."
+      "note": "Garonne + Dordogne, sans double comptage."
     },
     "Adour": {
       "type": "reconstitue",
-      "debit_m3_s": 55.971999999999994,
-      "volume_m3_jour": 4835980.8,
+      "debit_m3_s": 55.972,
+      "volume_m3_jour": 4835981,
       "stations": [
         "Adour_principal",
         "Gave_de_Pau",
         "Gave_Oloron",
         "Nive"
       ],
-      "note": "Reconstitution V1 à partir de quatre composantes hydrologiques."
+      "note": "Adour principal + Gave de Pau + Gave d'Oloron + Nive."
     }
   },
   "stations": {
     "Seine": {
       "code": "H320000104",
-      "nom": "Seine à Vernon",
+      "nom": "Seine a Vernon",
       "disponible": true,
       "debit_m3_s": 131.691,
       "date": "2026-09-09",
@@ -223,7 +225,7 @@
     },
     "Loire": {
       "code": "M530001010",
-      "nom": "Loire à Montjean-sur-Loire",
+      "nom": "Loire a Montjean-sur-Loire",
       "disponible": true,
       "debit_m3_s": 110.78,
       "date": "2026-09-09",
@@ -232,7 +234,7 @@
     },
     "Rhone": {
       "code": "V720001002",
-      "nom": "Rhône à Tarascon",
+      "nom": "Rhone a Tarascon",
       "disponible": true,
       "debit_m3_s": 607.526,
       "date": "2026-09-09",
@@ -241,7 +243,7 @@
     },
     "Garonne": {
       "code": "O900001002",
-      "nom": "Garonne à Tonneins",
+      "nom": "Garonne a Tonneins",
       "disponible": true,
       "debit_m3_s": 101.234,
       "date": "2026-09-09",
@@ -250,7 +252,7 @@
     },
     "Dordogne": {
       "code": "P555001001",
-      "nom": "Dordogne à Pessac-sur-Dordogne",
+      "nom": "Dordogne a Pessac-sur-Dordogne",
       "disponible": true,
       "debit_m3_s": 45.303,
       "date": "2026-09-09",
@@ -295,7 +297,7 @@
     },
     "Charente": {
       "code": "R520001001",
-      "nom": "Charente à Saintes",
+      "nom": "Charente a Saintes",
       "disponible": true,
       "debit_m3_s": 46.336,
       "date": "2026-09-09",
@@ -304,7 +306,7 @@
     },
     "Vilaine": {
       "code": "J790061002",
-      "nom": "Vilaine à Langon",
+      "nom": "Vilaine a Langon",
       "disponible": true,
       "debit_m3_s": 1.62,
       "date": "2026-09-09",
@@ -322,7 +324,7 @@
     },
     "Orne": {
       "code": "I353101001",
-      "nom": "Orne à Grimbosq",
+      "nom": "Orne a Grimbosq",
       "disponible": true,
       "debit_m3_s": 1.098,
       "date": "2026-09-09",
@@ -349,12 +351,8 @@
     },
     "Selune": {
       "code": "I922102001",
-      "nom": "Sélune",
-      "disponible": true,
-      "debit_m3_s": 1.495,
-      "date": "2026-09-09",
-      "statut": null,
-      "qualification": null
+      "nom": "Selune",
+      "disponible": false
     },
     "Aude": {
       "code": "Y142201002",
@@ -367,7 +365,7 @@
     },
     "Herault": {
       "code": "Y237002001",
-      "nom": "Hérault",
+      "nom": "Herault",
       "disponible": true,
       "debit_m3_s": 2.517,
       "date": "2026-09-09",
@@ -385,7 +383,7 @@
     },
     "Aulne": {
       "code": "J381181001",
-      "nom": "Aulne à Châteauneuf-du-Faou",
+      "nom": "Aulne a Chateauneuf-du-Faou",
       "disponible": true,
       "debit_m3_s": 1.221,
       "date": "2026-09-09",
@@ -394,7 +392,7 @@
     },
     "Blavet": {
       "code": "J571211005",
-      "nom": "Blavet à Languidic",
+      "nom": "Blavet a Languidic",
       "disponible": true,
       "debit_m3_s": 3.113,
       "date": "2026-09-09",
@@ -412,7 +410,7 @@
     },
     "Elorn": {
       "code": "J340301001",
-      "nom": "Élorn",
+      "nom": "Elorn",
       "disponible": true,
       "debit_m3_s": 0.526,
       "date": "2026-09-09",
@@ -430,7 +428,7 @@
     },
     "Leguer": {
       "code": "J223302001",
-      "nom": "Léguer",
+      "nom": "Leguer",
       "disponible": true,
       "debit_m3_s": 0.673,
       "date": "2026-09-09",
@@ -456,5 +454,5 @@
       "qualification": null
     }
   },
-  "avertissement": "Version V1 de test. Le total représente uniquement les flux mesurés ou reconstitués par le réseau V1. Il ne comprend pas encore l'estimation des zones non jaugées et ne constitue donc pas encore le total national France."
+  "avertissement": "Version V1.2 de test. Le total et le cumul representent uniquement les flux mesures ou reconstitues du reseau V1. L'estimation des zones non jaugees n'est pas encore ajoutee."
 }

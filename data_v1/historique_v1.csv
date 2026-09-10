@@ -1,2 +1,8 @@
-date,debit_m3_s,volume_m3_jour,stations_disponibles,stations_prevues,couverture_stations_pct,exutoires_disponibles,exutoires_prevus,couverture_exutoires_pct,method_version
-2026-09-09,1136.827,98221853,27,27,100.0,23,23,100.0,V1.1-test
+date,debit_m3_s,volume_m3_jour,stations_disponibles,stations_prevues,couverture_stations_pct,exutoires_disponibles,exutoires_prevus,couverture_exutoires_pct,method_version,cumul_volume_m3,cumul_milliards_m3
+2026-09-01,1154.021,99707415,27,27,100.0,23,23,100.0,V1.2-test,99707415,0.099707
+2026-09-02,1171.736,101237990,27,27,100.0,23,23,100.0,V1.2-test,200945405,0.200945
+2026-09-03,1123.142,97039469,27,27,100.0,23,23,100.0,V1.2-test,297984874,0.297985
+2026-09-06,1026.778,88713618,26,27,96.3,22,23,95.7,V1.2-test,386698492,0.386698
+2026-09-07,1100.098,95048467,26,27,96.3,22,23,95.7,V1.2-test,481746959,0.481747
+2026-09-08,1096.394,94728442,27,27,100.0,23,23,100.0,V1.2-test,576475401,0.576475
+2026-09-09,1135.332,98092684,26,27,96.3,22,23,95.7,V1.2-test,674568085,0.674568
