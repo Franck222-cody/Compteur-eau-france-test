@@ -1,524 +1,389 @@
 #!/usr/bin/env python3
-
-import csv
-import json
-import time
-from datetime import date, datetime, timedelta, timezone
+import csv,json,time
+from datetime import date,datetime,timedelta,timezone
 from pathlib import Path
-from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from urllib.request import Request,urlopen
 
-BASE_URL = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/obs_elab"
-METHOD_VERSION = "V1.3-test"
+URL="https://hubeau.eaufrance.fr/api/v2/hydrometrie/obs_elab"
+VERSION="V1.3-test"
+OUT=Path("data_v1")
+LATEST=OUT/"latest_v1.json"
+HISTORY=OUT/"historique_v1.csv"
 
-OUTPUT_DIR = Path("data_v1")
-LATEST_FILE = OUTPUT_DIR / "latest_v1.json"
-HISTORY_FILE = OUTPUT_DIR / "historique_v1.csv"
+CODES={
+"Seine":"H320000104","Loire":"M530001010","Rhone":"V720001002",
+"Garonne":"O900001002","Dordogne":"P555001001",
+"Adour_principal":"Q312001002","Gave_de_Pau":"Q523101001",
+"Gave_Oloron":"Q741291001","Nive":"Q931251001",
+"Charente":"R520001001","Vilaine":"J790061002","Somme":"E647091003",
+"Orne":"I353101001","Vire":"I522101001","Sienne":"I711101001",
+"Selune":"I922102001","Aude":"Y142201002","Herault":"Y237002001",
+"Orb":"Y258002002","Aulne":"J381181001","Blavet":"J571211005",
+"Odet":"J421191001","Elorn":"J340301001","Trieux":"J171171001",
+"Leguer":"J223302001","Scorff":"J510221001","Rance":"J061161001"}
 
-MAX_LOOKBACK_DAYS = 10
-PAUSE = 0.05
+CORE=["Seine","Loire","Rhone","Garonne","Dordogne"]
 
-STATION_LIST = [
-    ("Seine", "H320000104", "Seine a Vernon", True),
-    ("Loire", "M530001010", "Loire a Montjean-sur-Loire", True),
-    ("Rhone", "V720001002", "Rhone a Tarascon", True),
-    ("Garonne", "O900001002", "Garonne a Tonneins", True),
-    ("Dordogne", "P555001001", "Dordogne a Pessac-sur-Dordogne", True),
+DIRECT=["Seine","Loire","Rhone","Charente","Vilaine","Somme","Orne","Vire",
+"Sienne","Selune","Aude","Herault","Orb","Aulne","Blavet","Odet","Elorn",
+"Trieux","Leguer","Scorff","Rance"]
 
-    ("Adour_principal", "Q312001002", "Adour principal", False),
-    ("Gave_de_Pau", "Q523101001", "Gave de Pau", False),
-    ("Gave_Oloron", "Q741291001", "Gave d'Oloron", False),
-    ("Nive", "Q931251001", "Nive", False),
+ADOUR=["Adour_principal","Gave_de_Pau","Gave_Oloron","Nive"]
+EXPECTED=DIRECT+["Gironde","Adour"]
 
-    ("Charente", "R520001001", "Charente a Saintes", False),
-    ("Vilaine", "J790061002", "Vilaine a Langon", False),
-    ("Somme", "E647091003", "Somme", False),
-    ("Orne", "I353101001", "Orne a Grimbosq", False),
-    ("Vire", "I522101001", "Vire", False),
-    ("Sienne", "I711101001", "Sienne", False),
-    ("Selune", "I922102001", "Selune", False),
-
-    ("Aude", "Y142201002", "Aude", False),
-    ("Herault", "Y237002001", "Herault", False),
-    ("Orb", "Y258002002", "Orb", False),
-
-    ("Aulne", "J381181001", "Aulne a Chateauneuf-du-Faou", False),
-    ("Blavet", "J571211005", "Blavet a Languidic", False),
-    ("Odet", "J421191001", "Odet", False),
-    ("Elorn", "J340301001", "Elorn", False),
-    ("Trieux", "J171171001", "Trieux", False),
-    ("Leguer", "J223302001", "Leguer", False),
-    ("Scorff", "J510221001", "Scorff", False),
-    ("Rance", "J061161001", "Rance", False),
-]
-
-STATIONS = {
-    name: {
-        "code": code,
-        "nom": label,
-        "obligatoire": required,
+def fetch(code,day):
+    p={
+        "code_entite":code,
+        "date_debut_obs_elab":day.isoformat(),
+        "date_fin_obs_elab":day.isoformat(),
+        "grandeur_hydro_elab":"QmnJ",
+        "size":20
     }
-    for name, code, label, required in STATION_LIST
-}
-
-DIRECT_EXUTOIRES = [
-    "Seine",
-    "Loire",
-    "Rhone",
-    "Charente",
-    "Vilaine",
-    "Somme",
-    "Orne",
-    "Vire",
-    "Sienne",
-    "Selune",
-    "Aude",
-    "Herault",
-    "Orb",
-    "Aulne",
-    "Blavet",
-    "Odet",
-    "Elorn",
-    "Trieux",
-    "Leguer",
-    "Scorff",
-    "Rance",
-]
-
-ADOUR_COMPONENTS = [
-    "Adour_principal",
-    "Gave_de_Pau",
-    "Gave_Oloron",
-    "Nive",
-]
-
-EXPECTED_EXUTOIRES = DIRECT_EXUTOIRES + [
-    "Gironde",
-    "Adour",
-]
-
-
-def fetch_qmj(code, day):
-
-    params = {
-        "code_entite": code,
-        "date_debut_obs_elab": day.isoformat(),
-        "date_fin_obs_elab": day.isoformat(),
-        "grandeur_hydro_elab": "QmnJ",
-        "size": 20,
-    }
-
-    request = Request(
-        BASE_URL + "?" + urlencode(params),
-        headers={
-            "User-Agent":
-            "Compteur-Eau-Douce-France-V1/1.3"
-        },
-    )
-
     try:
-
-        with urlopen(
-            request,
-            timeout=30,
-        ) as response:
-
-            payload = json.load(response)
-
-    except (
-        HTTPError,
-        URLError,
-        TimeoutError,
-        json.JSONDecodeError,
-    ) as exc:
-
-        print(
-            f"Erreur API {code}: {exc}"
+        req=Request(
+            URL+"?"+urlencode(p),
+            headers={"User-Agent":"Compteur-Eau-V1.3"}
         )
-
+        with urlopen(req,timeout=30) as r:
+            rows=json.load(r).get("data",[])
+    except Exception as e:
+        print("API",code,e)
         return None
 
-    for row in payload.get(
-        "data",
-        [],
-    ):
-
-        value = row.get(
-            "resultat_obs_elab"
-        )
-
-        if value is None:
-            continue
-
-        try:
-
-            debit = (
-                float(value) / 1000.0
-            )
-
-        except (
-            TypeError,
-            ValueError,
-        ):
-
-            continue
-
-        return {
-            "debit_m3_s": debit,
-            "date": day.isoformat(),
-            "statut":
-                row.get(
-                    "statut_obs_elab"
-                ),
-            "qualification":
-                row.get(
-                    "qualification_obs_elab"
-                ),
-        }
-
+    for row in rows:
+        v=row.get("resultat_obs_elab")
+        if v is not None:
+            try:
+                return float(v)/1000
+            except (TypeError,ValueError):
+                pass
     return None
 
-
-def required_names():
-
-    return [
-        name
-        for name, info
-        in STATIONS.items()
-        if info["obligatoire"]
-    ]
-
-
-def collect_day(
-    day,
-    initial=None,
-):
-
-    results = dict(
-        initial or {}
-    )
-
-    for name, info in STATIONS.items():
-
-        if name in results:
+def collect(day,initial=None):
+    res=dict(initial or {})
+    for n,c in CODES.items():
+        if n in res:
             continue
-
-        obs = fetch_qmj(
-            info["code"],
-            day,
-        )
-
-        time.sleep(PAUSE)
-
-        if obs is None:
-
-            print(
-                f"  MANQUANT: {name}"
-            )
-
+        q=fetch(c,day)
+        time.sleep(.05)
+        if q is None:
+            print("MANQUANT:",n)
         else:
+            res[n]=q
+    return res
 
-            results[name] = obs
+def latest_day():
+    y=date.today()-timedelta(days=1)
 
-            print(
-                f"  OK {name}: "
-                f"{obs['debit_m3_s']:.3f} m3/s"
-            )
+    for off in range(11):
+        d=y-timedelta(days=off)
+        core={}
 
-    return results
+        for n in CORE:
+            q=fetch(CODES[n],d)
+            time.sleep(.05)
 
-
-def latest_common_day():
-
-    yesterday = (
-        date.today()
-        - timedelta(days=1)
-    )
-
-    for offset in range(
-        MAX_LOOKBACK_DAYS + 1
-    ):
-
-        day = (
-            yesterday
-            - timedelta(days=offset)
-        )
-
-        core = {}
-        ok = True
-
-        print(
-            f"Test date: {day}"
-        )
-
-        for name in required_names():
-
-            info = STATIONS[name]
-
-            obs = fetch_qmj(
-                info["code"],
-                day,
-            )
-
-            time.sleep(PAUSE)
-
-            if obs is None:
-
-                print(
-                    f"  MANQUANT: {name}"
-                )
-
-                ok = False
+            if q is None:
                 break
 
-            core[name] = obs
+            core[n]=q
 
-            print(
-                f"  OK {name}: "
-                f"{obs['debit_m3_s']:.3f} m3/s"
-            )
-
-        if ok:
-
-            return day, core
+        if len(core)==len(CORE):
+            return d,core
 
     raise RuntimeError(
-        "Aucune date commune trouvee "
-        "pour les 5 stations principales."
+        "Pas de date commune pour les 5 stations principales"
     )
 
+def exutoires(res):
+    ex={}
 
-def core_complete(results):
+    for n in DIRECT:
+        if n in res:
+            ex[n]=res[n]
 
-    return all(
-        name in results
-        for name in required_names()
-    )
+    if "Garonne" in res and "Dordogne" in res:
+        ex["Gironde"]=res["Garonne"]+res["Dordogne"]
 
+    if all(n in res for n in ADOUR):
+        ex["Adour"]=sum(res[n] for n in ADOUR)
 
-def build_exutoires(results):
+    return ex
 
-    exutoires = {}
+def summary(day,res):
+    ex=exutoires(res)
 
-    for name in DIRECT_EXUTOIRES:
+    ms=[n for n in CODES if n not in res]
+    me=[n for n in EXPECTED if n not in ex]
 
-        obs = results.get(name)
-
-        if obs is None:
-            continue
-
-        q = obs["debit_m3_s"]
-
-        exutoires[name] = {
-            "type":
-                "mesure_ou_reference",
-            "debit_m3_s":
-                round(q, 3),
-            "volume_m3_jour":
-                round(q * 86400),
-            "stations":
-                [name],
-        }
-
-    if (
-        "Garonne" in results
-        and "Dordogne" in results
-    ):
-
-        q = (
-            results[
-                "Garonne"
-            ]["debit_m3_s"]
-            +
-            results[
-                "Dordogne"
-            ]["debit_m3_s"]
-        )
-
-        exutoires["Gironde"] = {
-            "type":
-                "reconstitue",
-            "debit_m3_s":
-                round(q, 3),
-            "volume_m3_jour":
-                round(q * 86400),
-            "stations": [
-                "Garonne",
-                "Dordogne",
-            ],
-            "note":
-                "Garonne + Dordogne, "
-                "sans double comptage.",
-        }
-
-    if all(
-        name in results
-        for name in ADOUR_COMPONENTS
-    ):
-
-        q = sum(
-            results[
-                name
-            ]["debit_m3_s"]
-            for name
-            in ADOUR_COMPONENTS
-        )
-
-        exutoires["Adour"] = {
-            "type":
-                "reconstitue",
-            "debit_m3_s":
-                round(q, 3),
-            "volume_m3_jour":
-                round(q * 86400),
-            "stations":
-                ADOUR_COMPONENTS,
-            "note":
-                "Adour principal + "
-                "Gave de Pau + "
-                "Gave d'Oloron + Nive.",
-        }
-
-    return exutoires
-
-
-def daily_summary(
-    day,
-    results,
-):
-
-    exutoires = build_exutoires(
-        results
-    )
-
-    missing_stations = [
-        name
-        for name in STATIONS
-        if name not in results
-    ]
-
-    missing_exutoires = [
-        name
-        for name in EXPECTED_EXUTOIRES
-        if name not in exutoires
-    ]
-
-    q = sum(
-        item["debit_m3_s"]
-        for item
-        in exutoires.values()
-    )
-
-    volume = sum(
-        item["volume_m3_jour"]
-        for item
-        in exutoires.values()
-    )
-
-    station_count = len(results)
-    station_expected = len(STATIONS)
-
-    exutoire_count = len(
-        exutoires
-    )
-
-    exutoire_expected = len(
-        EXPECTED_EXUTOIRES
-    )
+    q=sum(ex.values())
 
     return {
-        "date":
-            day.isoformat(),
+        "date":day.isoformat(),
+        "debit_m3_s":round(q,3),
+        "volume_m3_jour":round(q*86400),
 
-        "debit_m3_s":
-            round(q, 3),
-
-        "volume_m3_jour":
-            round(volume),
-
-        "stations_disponibles":
-            station_count,
-
-        "stations_prevues":
-            station_expected,
-
+        "stations_disponibles":len(res),
+        "stations_prevues":len(CODES),
         "couverture_stations_pct":
-            round(
-                100
-                * station_count
-                / station_expected,
-                1,
-            ),
+            round(100*len(res)/len(CODES),1),
+        "stations_manquantes":";".join(ms),
 
-        "stations_manquantes":
-            ";".join(
-                missing_stations
-            ),
-
-        "exutoires_disponibles":
-            exutoire_count,
-
-        "exutoires_prevus":
-            exutoire_expected,
-
+        "exutoires_disponibles":len(ex),
+        "exutoires_prevus":len(EXPECTED),
         "couverture_exutoires_pct":
-            round(
-                100
-                * exutoire_count
-                / exutoire_expected,
-                1,
-            ),
+            round(100*len(ex)/len(EXPECTED),1),
+        "exutoires_manquants":";".join(me),
 
-        "exutoires_manquants":
-            ";".join(
-                missing_exutoires
-            ),
-
-        "method_version":
-            METHOD_VERSION,
+        "method_version":VERSION
     }
 
-
 def hydro_start(day):
-
-    if day.month >= 9:
-        year = day.year
-    else:
-        year = day.year - 1
-
     return date(
-        year,
+        day.year if day.month>=9 else day.year-1,
         9,
-        1,
+        1
     )
 
-
 def load_history():
+    if not HISTORY.exists():
+        return {}
 
-    rows = {}
-
-    if not HISTORY_FILE.exists():
-        return rows
-
-    with HISTORY_FILE.open(
-        "r",
+    with HISTORY.open(
         encoding="utf-8",
-        newline="",
-    ) as file:
+        newline=""
+    ) as f:
+        return {
+            r["date"]:r
+            for r in csv.DictReader(f)
+            if r.get("date")
+        }
 
-        for row in csv.DictReader(
-            file
-        ):
+FIELDS=[
+"date","debit_m3_s","volume_m3_jour",
+"stations_disponibles","stations_prevues",
+"couverture_stations_pct","stations_manquantes",
+"exutoires_disponibles","exutoires_prevus",
+"couverture_exutoires_pct","exutoires_manquants",
+"method_version","cumul_volume_m3","cumul_milliards_m3"
+]
 
-            if row.get("date"):
+def write_history(h,start,end):
+    rows=[]
 
-                rows[
-                    row["date"]
-                ] = row
+    for k,r in h.items():
+        try:
+            d=date.fromisoformat(k)
+        except ValueError:
+            continue
 
-    return rows
+        if start<=d<=end:
+            rows.append(dict(r))
 
+    rows.sort(key=lambda r:r["date"])
 
-def history_needs_rebuild(
-   
+    cumul=0
+
+    for r in rows:
+        cumul+=round(
+            float(r.get("volume_m3_jour",0) or 0)
+        )
+
+        r["cumul_volume_m3"]=str(cumul)
+        r["cumul_milliards_m3"]=f"{cumul/1e9:.6f}"
+
+        for f in FIELDS:
+            r.setdefault(f,"")
+
+    OUT.mkdir(parents=True,exist_ok=True)
+
+    with HISTORY.open(
+        "w",
+        encoding="utf-8",
+        newline=""
+    ) as f:
+        w=csv.DictWriter(
+            f,
+            fieldnames=FIELDS,
+            extrasaction="ignore"
+        )
+        w.writeheader()
+        w.writerows(rows)
+
+    return rows,cumul
+
+def save_latest(day,res,rows,cumul,start):
+    s=summary(day,res)
+    ex=exutoires(res)
+    expected=(day-start).days+1
+
+    payload={
+        "date":day.isoformat(),
+        "generated_at":
+            datetime.now(timezone.utc).isoformat(),
+        "method_version":VERSION,
+
+        "total":{
+            "type":"mesure_reconstituee",
+            "debit_m3_s":s["debit_m3_s"],
+            "volume_m3_jour":s["volume_m3_jour"],
+
+            "stations_disponibles":
+                s["stations_disponibles"],
+            "stations_prevues":
+                s["stations_prevues"],
+            "couverture_stations_pct":
+                s["couverture_stations_pct"],
+            "stations_manquantes":[
+                x for x in
+                s["stations_manquantes"].split(";")
+                if x
+            ],
+
+            "exutoires_disponibles":
+                s["exutoires_disponibles"],
+            "exutoires_prevus":
+                s["exutoires_prevus"],
+            "couverture_exutoires_pct":
+                s["couverture_exutoires_pct"],
+            "exutoires_manquants":[
+                x for x in
+                s["exutoires_manquants"].split(";")
+                if x
+            ]
+        },
+
+        "cumul_hydrologique":{
+            "date_debut":start.isoformat(),
+            "date_fin":day.isoformat(),
+            "jours_couverts":len(rows),
+            "jours_attendus":expected,
+            "couverture_jours_pct":
+                round(100*len(rows)/expected,1),
+            "volume_m3":int(cumul),
+            "volume_millions_m3":
+                round(cumul/1e6,3),
+            "volume_milliards_m3":
+                round(cumul/1e9,6)
+        },
+
+        "exutoires":{
+            n:{
+                "debit_m3_s":round(q,3),
+                "volume_m3_jour":round(q*86400)
+            }
+            for n,q in ex.items()
+        },
+
+        "avertissement":
+            "V1.3 test - zones non jaugees non ajoutees."
+    }
+
+    with LATEST.open(
+        "w",
+        encoding="utf-8"
+    ) as f:
+        json.dump(
+            payload,
+            f,
+            ensure_ascii=False,
+            indent=2
+        )
+
+    return payload
+
+def main():
+    print("=== V1.3 TEST ===")
+
+    last,core=latest_day()
+    last_res=collect(last,core)
+    start=hydro_start(last)
+
+    h=load_history()
+
+    if h and any(
+        r.get("method_version")!=VERSION
+        for r in h.values()
+    ):
+        print("Reconstruction historique V1.3")
+        h={}
+
+    h.pop(last.isoformat(),None)
+
+    d=start
+
+    while d<=last:
+        k=d.isoformat()
+
+        if k not in h:
+            res=(
+                last_res
+                if d==last
+                else collect(d)
+            )
+
+            if all(n in res for n in CORE):
+                s=summary(d,res)
+
+                h[k]={
+                    a:str(b)
+                    for a,b in s.items()
+                }
+
+                print(
+                    d,
+                    "stations:",
+                    s["stations_manquantes"]
+                    or "aucune",
+                    "| exutoires:",
+                    s["exutoires_manquants"]
+                    or "aucun"
+                )
+            else:
+                print(
+                    d,
+                    "ignore: station principale manquante"
+                )
+
+        d+=timedelta(days=1)
+
+    rows,cumul=write_history(
+        h,
+        start,
+        last
+    )
+
+    p=save_latest(
+        last,
+        last_res,
+        rows,
+        cumul,
+        start
+    )
+
+    c=p["cumul_hydrologique"]
+
+    print(
+        "Date:",
+        p["date"],
+        "Debit:",
+        p["total"]["debit_m3_s"],
+        "m3/s"
+    )
+
+    print(
+        "Cumul:",
+        c["volume_m3"],
+        "m3 Jours:",
+        c["jours_couverts"],
+        "/",
+        c["jours_attendus"]
+    )
+
+    print(
+        "TEST: compteur public non modifie"
+    )
+
+if __name__=="__main__":
+    main()
