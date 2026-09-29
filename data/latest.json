@@ -5,8 +5,8 @@
     "Seine": {
       "station": "H320000104",
       "nom": "Seine à Vernon",
-      "qmj_m3_s": 132.751,
-      "volume_m3_jour": 11469686.0,
+      "qmj_m3_s": 132.756,
+      "volume_m3_jour": 11470118.0,
       "volume_millions_m3_jour": 11.47
     },
     "Loire": {
@@ -39,8 +39,8 @@
     }
   },
   "total": {
-    "debit_m3_s": 889.749,
-    "volume_m3_jour": 76874313.0,
-    "volume_millions_m3_jour": 76.874
+    "debit_m3_s": 889.754,
+    "volume_m3_jour": 76874745.0,
+    "volume_millions_m3_jour": 76.875
   }
 }
