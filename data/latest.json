@@ -1,46 +1,46 @@
 {
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "nombre_stations": 5,
   "stations": {
     "Seine": {
       "station": "H320000104",
       "nom": "Seine à Vernon",
-      "qmj_m3_s": 145.917,
-      "volume_m3_jour": 12607229.0,
-      "volume_millions_m3_jour": 12.607
+      "qmj_m3_s": 155.519,
+      "volume_m3_jour": 13436842.0,
+      "volume_millions_m3_jour": 13.437
     },
     "Loire": {
       "station": "M530001010",
       "nom": "Loire à Montjean-sur-Loire",
-      "qmj_m3_s": 117.056,
-      "volume_m3_jour": 10113638.0,
-      "volume_millions_m3_jour": 10.114
+      "qmj_m3_s": 117.921,
+      "volume_m3_jour": 10188374.0,
+      "volume_millions_m3_jour": 10.188
     },
     "Rhone": {
       "station": "V720001002",
       "nom": "Rhône à Tarascon",
-      "qmj_m3_s": 713.79,
-      "volume_m3_jour": 61671456.0,
-      "volume_millions_m3_jour": 61.671
+      "qmj_m3_s": 2066.541,
+      "volume_m3_jour": 178549142.0,
+      "volume_millions_m3_jour": 178.549
     },
     "Garonne": {
       "station": "O900001002",
       "nom": "Garonne à Tonneins",
-      "qmj_m3_s": 79.455,
-      "volume_m3_jour": 6864912.0,
-      "volume_millions_m3_jour": 6.865
+      "qmj_m3_s": 125.746,
+      "volume_m3_jour": 10864454.0,
+      "volume_millions_m3_jour": 10.864
     },
     "Dordogne": {
       "station": "P555001001",
       "nom": "Dordogne à Pessac-sur-Dordogne",
-      "qmj_m3_s": 47.283,
-      "volume_m3_jour": 4085251.0,
-      "volume_millions_m3_jour": 4.085
+      "qmj_m3_s": 46.127,
+      "volume_m3_jour": 3985373.0,
+      "volume_millions_m3_jour": 3.985
     }
   },
   "total": {
-    "debit_m3_s": 1103.501,
-    "volume_m3_jour": 95342486.0,
-    "volume_millions_m3_jour": 95.342
+    "debit_m3_s": 2511.854,
+    "volume_m3_jour": 217024185.0,
+    "volume_millions_m3_jour": 217.024
   }
 }
